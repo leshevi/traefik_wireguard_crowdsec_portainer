@@ -1,0 +1,28 @@
+version: "3"
+services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/www/DOMAIN/:/usr/share/nginx/html
+    restart: unless-stopped
+    networks:
+      proxy:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nginx.entrypoints=http"
+      - "traefik.http.routers.nginx.rule=Host(`DOMAIN`)"
+      - "traefik.http.middlewares.nginx-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.nginx.middlewares=nginx-https-redirect"
+      - "traefik.http.routers.nginx-secure.entrypoints=https"
+      - "traefik.http.routers.nginx-secure.rule=Host(`DOMAIN`)"
+      - "traefik.http.routers.nginx-secure.tls=true"
+      - "traefik.http.routers.nginx-secure.service=nginx"
+      - "traefik.http.services.nginx.loadbalancer.server.port=80"
+      - "traefik.docker.network=proxy"
+
+networks:
+  proxy:
+    external: true
