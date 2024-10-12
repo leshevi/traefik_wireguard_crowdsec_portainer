@@ -2,7 +2,7 @@ http:
   middlewares:
     crowdsec:
       plugin:
-        bouncer:
+        crowdsec-bouncer-traefik-plugin:
           enabled: true
           logLevel: INFO
           updateIntervalSeconds: 15
