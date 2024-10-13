@@ -6,7 +6,7 @@ def run_script(script_name):
 
 if __name__ == "__main__":
     script1_thread = threading.Thread(target=run_script, args=("main.py", ))
-    script2_thread = threading.Thread(target=run_script, args=("bot2.py", ))
+    script2_thread = threading.Thread(target=run_script, args=("main1.py", ))
 
     script1_thread.start()
     script2_thread.start()
