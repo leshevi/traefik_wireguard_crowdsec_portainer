@@ -1,0 +1,30 @@
+version: "3"
+services:
+  bot_main:
+    build:
+     context: .
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./app:/app
+    env_file:
+      - creds/__init__.py
+    restart: unless-stopped
+    networks:
+      proxy:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bot.entrypoints=http"
+      - "traefik.http.routers.bot.rule=Host(`bot.polzemli.ru`)"
+      - "traefik.http.middlewares.bot-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.bot.middlewares=bot-https-redirect"
+      - "traefik.http.routers.bot-secure.entrypoints=https"
+      - "traefik.http.routers.bot-secure.rule=Host(`bot.polzemli.ru`)"
+      - "traefik.http.routers.bot-secure.tls=true"
+      - "traefik.http.routers.bot-secure.service=bot"
+      - "traefik.http.services.bot.loadbalancer.server.port=80"
+      - "traefik.docker.network=proxy"
+
+networks:
+  proxy:
+    external: true
