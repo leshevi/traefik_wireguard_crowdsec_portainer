@@ -1,1 +1,1 @@
-В папке Docker файл acme.json должен быть с правами 600. Там будут храниться сертификаты.
+Crowdsec, traefik, nginx, nodered, portainer, wireguard, ntp, bot.
