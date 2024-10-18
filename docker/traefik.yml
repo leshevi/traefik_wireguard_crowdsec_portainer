@@ -27,7 +27,7 @@ providers:
 certificatesResolvers:
   cloudflare:
     acme:
-      email: leshevi2022@gmail.com
+      email: @gmail.com
       storage: acme.json
       dnsChallenge:
         provider: cloudflare
