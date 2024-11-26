@@ -15,8 +15,8 @@ services:
       - RUN_PROD=prod
       - DOMAIN=gitea.polzemli.ru
       - HTTP_PORT=3030
-      - ROOT_URL=https://gitea.polzemli.ru
-      - SSH_DOMAIN=gitea.polzemli.ru
+      - ROOT_URL=https://gitea.iii.ru
+      - SSH_DOMAIN=gitea.iii.ru
       - SSH_PORT=222
       - SSH_LISTEN_PORT=22
     restart: always
@@ -38,11 +38,11 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gitea.entrypoints=http"
-      - "traefik.http.routers.gitea.rule=Host(`gitea.polzemli.ru`)"
+      - "traefik.http.routers.gitea.rule=Host(`gitea.iii.ru`)"
       - "traefik.http.middlewares.gitea-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.routers.gitea.middlewares=gitea-https-redirect"
       - "traefik.http.routers.gitea-secure.entrypoints=https"
-      - "traefik.http.routers.gitea-secure.rule=Host(`gitea.polzemli.ru`)"
+      - "traefik.http.routers.gitea-secure.rule=Host(`gitea.iii.ru`)"
       - "traefik.http.routers.gitea-secure.tls=true"
       - "traefik.http.routers.gitea-secure.service=gitea"
       - "traefik.http.services.gitea.loadbalancer.server.port=3000"
