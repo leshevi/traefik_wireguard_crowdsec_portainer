@@ -11,6 +11,8 @@ services:
     ports:
       - 80:80
       - 443:443
+      - 8080:8080
+      - 222:222
     environment:
       - CF_API_EMAIL=MAIL(в Cloudflare)
       - CF_DNS_API_TOKEN=(в Cloudflare)
