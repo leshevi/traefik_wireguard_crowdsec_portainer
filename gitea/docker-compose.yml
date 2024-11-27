@@ -48,13 +48,9 @@ services:
       - "traefik.http.services.gitea.loadbalancer.server.port=3000"
       - "traefik.docker.network=proxy"
       - "traefik.tcp.routers.gitea-ssh.rule=HostSNI(`*`)"
-      - "traefik.tcp.routers.gitea-ssh.entrypoints=ssh"
+      - "traefik.tcp.routers.gitea-ssh.entrypoints=gitea_ssh"
       - "traefik.tcp.routers.gitea-ssh.service=gitea-ssh-svc"
       - "traefik.tcp.services.gitea-ssh-svc.loadbalancer.server.port=22"
-      - "traefik.backend=gitea"
-      - "traefik.docker.network=proxy"
-      - "traefik.default.protocol=http"
-      - "traefik.port=3030"
   db:
     image: postgres:14
     restart: unless-stopped
