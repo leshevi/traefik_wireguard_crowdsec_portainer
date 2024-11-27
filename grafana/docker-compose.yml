@@ -14,20 +14,20 @@ services:
     depends_on:
       - influxdb
     environment:
-      - GF_SECURITY_ADMIN_USER=leshevi
-      - GF_SECURITY_ADMIN_PASSWORD=olga19721961
+      - GF_SECURITY_ADMIN_USER=u
+      - GF_SECURITY_ADMIN_PASSWORD=u
       - GF_INSTALL_PLUGINS= #grafana-worldmap-panel
 #    links:
 #      - influxdb
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.grafana.entrypoints=http"
-      - "traefik.http.routers.grafana.rule=Host(`grafana.polzemli.ru`)"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.iii.ru`)"
       #- "traefik.http.routers.grafana.middlewares=default-ipAllowList@file"
       - "traefik.http.middlewares.grafana-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.routers.grafana.middlewares=grafana-https-redirect"
       - "traefik.http.routers.grafana-secure.entrypoints=https"
-      - "traefik.http.routers.grafana-secure.rule=Host(`grafana.polzemli.ru`)"
+      - "traefik.http.routers.grafana-secure.rule=Host(`grafana.iii.ru`)"
       - "traefik.http.routers.grafana-secure.tls=true"
       - "traefik.http.routers.grafana-secure.service=grafana"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
@@ -40,8 +40,8 @@ services:
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_BUCKET=homelab
-      - DOCKER_INFLUXDB_INIT_USERNAME=adminadmin
-      - DOCKER_INFLUXDB_INIT_PASSWORD=adminadmin
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=admin
       - DOCKER_INFLUXDB_INIT_ORG=home
     networks:
       - grafana
