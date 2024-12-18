@@ -15,11 +15,11 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.bot.entrypoints=http"
-      - "traefik.http.routers.bot.rule=Host(`bot.polzemli.ru`)"
+      - "traefik.http.routers.bot.rule=Host(`bot.kl.ru`)"
       - "traefik.http.middlewares.bot-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.routers.bot.middlewares=bot-https-redirect"
       - "traefik.http.routers.bot-secure.entrypoints=https"
-      - "traefik.http.routers.bot-secure.rule=Host(`bot.polzemli.ru`)"
+      - "traefik.http.routers.bot-secure.rule=Host(`bot.kl.ru`)"
       - "traefik.http.routers.bot-secure.tls=true"
       - "traefik.http.routers.bot-secure.service=bot"
       - "traefik.http.services.bot.loadbalancer.server.port=80"
