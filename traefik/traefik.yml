@@ -14,8 +14,14 @@ entryPoints:
   https:
     address: ":443"
     http:
-      middlewares:
-        - "crowdsec@file"
+      tls: {}
+  gitea_ssh:
+    address: ":222"
+  metrics:
+    address: ":8080"
+metrics:
+  prometheus:
+    entryPoint: metrics
 serversTransport:
   insecureSkipVerify: true
 providers:
