@@ -4,12 +4,12 @@ services:
     image: gitlab/gitlab-ee:latest
     container_name: gitlab
     restart: unless-stopped
-    hostname: 'gitlab.leshevi.ru'
+    hostname: 'domen.ru'
     healthcheck:
       disable: true
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://gitlab.leshevi.ru'
+        external_url 'https://domen.ru'
         nginx['listen_port'] = 80
         nginx['listen_https'] = false
         nginx['proxy_set_headers'] = {
@@ -25,11 +25,11 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gitlab.entrypoints=http"
-      - "traefik.http.routers.gitlab.rule=Host(`gitlab.leshevi.ru`)"
+      - "traefik.http.routers.gitlab.rule=Host(`domen.ru`)"
       - "traefik.http.middlewares.gitlab-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.routers.gitlab.middlewares=gitlab-https-redirect"
       - "traefik.http.routers.gitlab-secure.entrypoints=https"
-      - "traefik.http.routers.gitlab-secure.rule=Host(`gitlab.leshevi.ru`)"
+      - "traefik.http.routers.gitlab-secure.rule=Host(`domen.ru`)"
       - "traefik.http.routers.gitlab-secure.tls=true"
       - "traefik.http.routers.gitlab-secure.service=gitlab"
       - "traefik.http.services.gitlab.loadbalancer.server.port=80"
