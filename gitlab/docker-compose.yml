@@ -1,0 +1,55 @@
+version: '3.6'
+services:
+  gitlab:
+    image: gitlab/gitlab-ee:latest
+    container_name: gitlab
+    restart: unless-stopped
+    hostname: 'gitlab.leshevi.ru'
+    healthcheck:
+      disable: true
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://gitlab.leshevi.ru'
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+        nginx['proxy_set_headers'] = {
+          "X-Forwarded-Proto" => "https",
+          "X-Forwarded-Ssl" => "on"
+        }
+        gitlab_rails['gitlab_shell_ssh_port'] = 2424
+        gitlab_rails['smtp_enable'] = false
+
+    ports:
+      - "2424:2424"
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitlab.entrypoints=http"
+      - "traefik.http.routers.gitlab.rule=Host(`gitlab.leshevi.ru`)"
+      - "traefik.http.middlewares.gitlab-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.gitlab.middlewares=gitlab-https-redirect"
+      - "traefik.http.routers.gitlab-secure.entrypoints=https"
+      - "traefik.http.routers.gitlab-secure.rule=Host(`gitlab.leshevi.ru`)"
+      - "traefik.http.routers.gitlab-secure.tls=true"
+      - "traefik.http.routers.gitlab-secure.service=gitlab"
+      - "traefik.http.services.gitlab.loadbalancer.server.port=80"
+      - "traefik.docker.network=proxy"
+      - "traefik.tcp.routers.gitlab-ssh.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.gitlab-ssh.entrypoints=gitlab_ssh"
+      - "traefik.tcp.routers.gitlab-ssh.service=gitlab-ssh-svc"
+      - "traefik.tcp.services.gitlab-ssh-svc.loadbalancer.server.port=22"
+
+
+    volumes:
+      - '/home/ansible/gitlab/config:/etc/gitlab'
+      - '/home/ansible/gitlab/logs:/var/log/gitlab'
+      - '/home/ansible/gitlab/data:/var/opt/gitlab'
+    shm_size: '256m'
+    networks:
+      proxy:
+
+networks:
+  proxy:
+    external: true
+
+
